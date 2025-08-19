@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "870647180796",
+    "project_id": "my-life-58161",
+    "storage_bucket": "my-life-58161.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870647180796:android:349f3bcc48d72745d41679",
+        "android_client_info": {
+          "package_name": "com.example.my_life"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870647180796-aiil2pbg299gs11f3n1mcqjor73m7pm8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_life",
+            "certificate_hash": "a30bd082d860e0a83d1565817d9325138b5ba4fd"
+          }
+        },
+        {
+          "client_id": "870647180796-o77ujlhgavnjn8lrjeogn4ng4tnucogk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvTXfhGO2TJBiSiGVVZiAlAA8POLc28Vs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870647180796-o77ujlhgavnjn8lrjeogn4ng4tnucogk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
