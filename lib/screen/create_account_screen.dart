@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/model/uplode_model.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';

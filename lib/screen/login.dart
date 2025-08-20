@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/screen/create_account_screen.dart';
-import 'package:my_life/screen/home.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

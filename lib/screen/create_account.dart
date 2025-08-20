@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sizer/sizer.dart';
+
+class CreateAccount extends StatefulWidget {
+  const CreateAccount({super.key});
+
+  @override
+  State<CreateAccount> createState() => _CreateAccountState();
+}
+
+class _CreateAccountState extends State<CreateAccount> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 10.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Log in',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(width: 5.w),
+                Container(
+                  width: 12.w,
+                  height: 6.h,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 233, 247, 233),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'lib/assets/images/5.png',
+                    fit: BoxFit.cover,
+                    width: 8.w,
+                  ),
+                ),
+                SizedBox(width: 8.w),
+              ],
+            ),
+            SizedBox(height: 6.h),
+            SizedBox(
+              width: 80.w,
+              child: Text(
+                'Create account using Google',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w900,
+                  color: const Color.fromARGB(255, 207, 202, 200),
+                ),
+              ),
+            ),
+            SizedBox(height: 3.h),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  child: Container(
+                    width: 50.w,
+                    height: 20.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: Container(
+                      color: const Color.fromARGB(255, 233, 247, 233),
+                    ),
+                  ),
+                ),
+                Text('Add Photo'),
+              ],
+            ),
+            SizedBox(height: 2.h),
+            Container(
+              alignment: Alignment.topLeft,
+              width: 80.w,
+              child: Text('Your Name', style: TextStyle(fontSize: 16.sp)),
+            ),
+            SizedBox(
+              width: 80.w,
+              child: TextField(
+                textDirection: TextDirection.ltr,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ), // عندما يكون غير مفعّل
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ), // عند الضغط عليه
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 2.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 1.h),
+                        Text('and'),
+                        SizedBox(width: 1.h),
+                        Text(
+                          'Terms and Condition',
+                          style: TextStyle(
+                            color: Colors.green,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.green, // لون الخط
+                            decorationThickness: 2,
+                          ),
+                        ),
+                        SizedBox(width: 1.h),
+                        Text('I agree to'),
+                        SizedBox(width: 1.h),
+                      ],
+                    ),
+                    Text(
+                      'Privacy Policy',
+                      style: TextStyle(
+                        color: Colors.green,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.green, // لون الخط
+                        decorationThickness: 2,
+                      ),
+                    ),
+                  ],
+                ),
+                Checkbox(value: false, onChanged: (value) {}),
+                SizedBox(width: 6.w),
+              ],
+            ),
+            SizedBox(height: 2.h),
+            Container(
+              alignment: Alignment.center,
+              width: 80.w,
+              height: 6.h,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Text(
+                'Create Account',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
