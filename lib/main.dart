@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/providers.dart';
 import 'package:my_life/screen/create_account.dart';
+import 'package:my_life/screen/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            home: CreateAccount(),
+            home: LoginScreen(),
           );
         },
       ),

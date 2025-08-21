@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_life/Notifiers/api_service_firebase.dart';
+import 'package:my_life/screen/create_account.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -141,29 +144,54 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            child: Container(
-              height: 10.h,
-              width: 90.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.white,
-                    spreadRadius: 2,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Sign up with Google",
-                    style: TextStyle(color: Colors.black, fontSize: 18.sp),
-                  ),
-                  SizedBox(width: 5.w),
-                  Icon(FontAwesomeIcons.google, color: Colors.red, size: 30.sp),
-                ],
+            child: GestureDetector(
+              onTap: () async {
+                // Handle Google sign-in
+                final account =
+                    await Provider.of<ApiServiceFirebase>(
+                      context,
+                      listen: false,
+                    ).getGoogleAccount();
+                if (account != null) {
+                  // Successfully signed in with Google
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => CreateAccount()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to sign in with Google')),
+                  );
+                }
+              },
+              child: Container(
+                height: 10.h,
+                width: 90.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white,
+                      spreadRadius: 2,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Sign up with Google",
+                      style: TextStyle(color: Colors.black, fontSize: 18.sp),
+                    ),
+                    SizedBox(width: 5.w),
+                    Icon(
+                      FontAwesomeIcons.google,
+                      color: Colors.red,
+                      size: 30.sp,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
