@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/model/profile_model.dart';
-import 'package:my_life/screen/login_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -283,7 +282,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     Provider.of<ApiServiceFirebase>(
                       context,
                       listen: false,
-                    ).user!.uid;
+                    ).getAccount()!.uid;
                 profileModel.createdTime = DateTime.now();
                 await Provider.of<ApiServiceFirebase>(
                   context,
