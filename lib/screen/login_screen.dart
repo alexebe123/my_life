@@ -7,7 +7,7 @@ import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
+  static const screenRoute = 'login_screen';
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

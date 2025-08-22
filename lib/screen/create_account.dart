@@ -12,7 +12,7 @@ import 'package:my_life/model/uplode_model.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
-
+  static const screenRoute = 'create_account';
   @override
   State<CreateAccount> createState() => _CreateAccountState();
 }
@@ -284,6 +284,12 @@ class _CreateAccountState extends State<CreateAccount> {
                       listen: false,
                     ).getAccount()!.uid;
                 profileModel.createdTime = DateTime.now();
+                profileModel.email =
+                    Provider.of<ApiServiceFirebase>(
+                      context,
+                      listen: false,
+                    ).getAccount()!.email ??
+                    "";
                 await Provider.of<ApiServiceFirebase>(
                   context,
                   listen: false,

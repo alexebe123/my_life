@@ -3,6 +3,7 @@ class ProfileModel {
   String fullname = "";
   String imageUrl = "";
   DateTime createdTime = DateTime.fromMillisecondsSinceEpoch(0);
+  String email = "";
 
   ProfileModel.empty();
 
@@ -19,6 +20,9 @@ class ProfileModel {
     try {
       imageUrl = json['imageUrl'];
     } catch (e) {}
+    try {
+      email = json['email'];
+    } catch (e) {}
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +30,7 @@ class ProfileModel {
     data['fullname'] = fullname;
     data['createdTime'] = createdTime.millisecondsSinceEpoch;
     data['imageUrl'] = imageUrl;
+    data['email'] = email;
     return data;
   }
 }

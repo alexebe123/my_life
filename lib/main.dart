@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/providers.dart';
 import 'package:my_life/screen/create_account.dart';
 import 'package:my_life/screen/login_screen.dart';
+import 'package:my_life/screen/main_screen.dart';
+import 'package:my_life/screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,7 +45,14 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            home: LoginScreen(),
+            initialRoute: SplashScreen.screenRoute,
+            routes: {
+              SplashScreen.screenRoute: (context) => const SplashScreen(),
+              LoginScreen.screenRoute: (context) => const LoginScreen(),
+              MainScreen.screenRoute: (context) => const MainScreen(),
+              CreateAccount.screenRoute:
+                  (context) => const CreateAccount(),
+            },
           );
         },
       ),
