@@ -1,36 +1,35 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:my_life/model/profile_model.dart';
+import 'package:my_life/res/app_constant.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ApiServiceFirebase extends ChangeNotifier {
   static ApiServiceFirebase? _instance;
   late FirebaseFirestore firebaseFirestore;
-  FirebaseAuth auth = FirebaseAuth.instance;
+  fb.FirebaseAuth auth = fb.FirebaseAuth.instance;
   late bool isLoggedIn;
-  User? user;
+  fb.User? user;
+
+  ProfileModel? profileModel = ProfileModel.empty();
   GoogleSignIn googleSignIn = GoogleSignIn.instance;
-  
-    FirebaseStorage storage = FirebaseStorage.instance;
 
   ApiServiceFirebase._internal() {
     firebaseFirestore = FirebaseFirestore.instance;
   }
 
-
   static ApiServiceFirebase get instance {
     _instance ??= ApiServiceFirebase._internal();
     return _instance!;
   }
-  List<String> scopes = <String>[
-  'email',
-  'https://www.googleapis.com/auth/contacts.readonly',
-];
 
+  List<String> scopes = <String>[
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ];
 
   final _googleSignIn = GoogleSignIn.instance;
   bool _isGoogleSignInInitialized = false;
@@ -54,20 +53,18 @@ class ApiServiceFirebase extends ChangeNotifier {
     await _ensureGoogleSignInInitialized();
     GoogleSignInAccount? account;
     try {
-      account = await _googleSignIn.authenticate(
-        scopeHint: scopes,
-      );
+      account = await _googleSignIn.authenticate(scopeHint: scopes);
       return account;
     } on GoogleSignInException catch (e) {
       print('Google Sign In error:\n$e');
-          return null;
-      } catch (error) {
-        print('Unexpected Google Sign-In error: $error');
-        return null;
-      }
+      return null;
+    } catch (error) {
+      print('Unexpected Google Sign-In error: $error');
+      return null;
+    }
   }
 
-  User? getAccount() {
+  fb.User? getAccount() {
     user = auth.currentUser;
     if (user == null) {
       isLoggedIn = false;
@@ -77,22 +74,63 @@ class ApiServiceFirebase extends ChangeNotifier {
     return user;
   }
 
-  Future uploadPhoto( File file) async {
-    // Implement photo upload logic here
-    Reference storageReference =
-        storage.ref().child('images/' + file.path.split('/').last);
+  Future<String> uploadPhoto(File file) async {
+    final fileName = DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+
     try {
-      final uploadTask = storageReference.putFile(file);
-      await uploadTask.whenComplete(() => print('File Uploaded')).catchError((e) {
-        print("error upload : " + e);
-      });
-      late String urldowload;
-      await storageReference.getDownloadURL().then((fileURL) {
-        urldowload = fileURL;
-      });
-      return urldowload;
+      final response = await Supabase.instance.client.storage
+          .from('images')
+          .upload(fileName, file);
+
+      if (response.isEmpty) {
+        throw 'Upload failed!';
+      }
+
+      // جلب الرابط المباشر
+      final publicUrl = Supabase.instance.client.storage
+          .from('images')
+          .getPublicUrl(fileName);
+
+      return publicUrl;
+    } catch (e) {
+      print('Upload error: $e');
+      return "";
+    }
+  }
+
+  Future addProfile(ProfileModel profile) async {
+    try {
+      await firebaseFirestore
+          .collection(AppConstants.collectionIdUsers)
+          .doc(profile.id)
+          .set(profile.toJson());
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<ProfileModel?> getProfile() async {
+    profileModel = null;
+    try {
+      final data =
+          await firebaseFirestore
+              .collection(AppConstants.collectionIdUsers)
+              .where("email", isEqualTo: user!.email)
+              .limit(1)
+              .get();
+      if (data.docs.isNotEmpty) {
+        final list =
+            data.docs.map<ProfileModel>((doc) {
+              var map = doc.data();
+              map["\$id"] = doc.id;
+              return ProfileModel.fromJson(map);
+            }).toList();
+        profileModel = list[0];
+      }
+      return profileModel;
+    } catch (e) {
+      //  print(e.toString());
+      return profileModel;
     }
   }
 }

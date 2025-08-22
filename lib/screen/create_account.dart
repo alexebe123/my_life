@@ -1,10 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_life/Notifiers/api_service_firebase.dart';
+import 'package:my_life/model/profile_model.dart';
+import 'package:my_life/screen/login_screen.dart';
+import 'package:my_life/screen/main_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter/services.dart';
 import 'package:my_life/model/uplode_model.dart';
@@ -17,7 +19,34 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  String fullNameError = "";
+  String imageUrlError = "";
   List<FileUploadModel?> listImages = [];
+  String buttonload = "";
+
+  ProfileModel profileModel = ProfileModel.empty();
+  _defaultValues() {
+    fullNameError = "";
+  }
+
+  bool _validateInfo(void Function(void Function()) setState) {
+    bool result = true;
+    _defaultValues();
+    if (profileModel.fullname == "") {
+      result = false;
+      setState(() {
+        fullNameError = "أدخل الإسم";
+      });
+    }
+    if (listImages.isEmpty) {
+      result = false;
+      setState(() {
+        imageUrlError = "يجب ادخال صورة شخصية";
+      });
+    }
+    return result;
+  }
+
   Future<FileUploadModel?> pickImage(ImageSource source) async {
     FileUploadModel? finalResult;
     try {
@@ -67,18 +96,23 @@ class _CreateAccountState extends State<CreateAccount> {
                   ),
                 ),
                 SizedBox(width: 5.w),
-                Container(
-                  width: 12.w,
-                  height: 6.h,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 233, 247, 233),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    'lib/assets/images/5.png',
-                    fit: BoxFit.cover,
-                    width: 8.w,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    width: 12.w,
+                    height: 6.h,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 233, 247, 233),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      'lib/assets/images/5.png',
+                      fit: BoxFit.cover,
+                      width: 8.w,
+                    ),
                   ),
                 ),
                 SizedBox(width: 8.w),
@@ -131,7 +165,6 @@ class _CreateAccountState extends State<CreateAccount> {
                         setState(() {
                           listImages.add(result);
                         });
-                        //Provider.of<ApiServiceFirebase>(context, listen: false).uploadPhoto();
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -160,6 +193,15 @@ class _CreateAccountState extends State<CreateAccount> {
               width: 80.w,
               child: TextField(
                 textDirection: TextDirection.ltr,
+                onChanged: (value) {
+                  if (fullNameError != "") {
+                    setState(() {
+                      fullNameError = "";
+                    });
+                  } else {
+                    profileModel.fullname = value;
+                  }
+                },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   enabledBorder: OutlineInputBorder(
@@ -222,20 +264,57 @@ class _CreateAccountState extends State<CreateAccount> {
               ],
             ),
             SizedBox(height: 2.h),
-            Container(
-              alignment: Alignment.center,
-              width: 80.w,
-              height: 6.h,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                'Create Account',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+            GestureDetector(
+              onTap: () async {
+                if (!_validateInfo(setState)) {
+                  return;
+                }
+                if (buttonload != "") {
+                  return;
+                }
+                setState(() {
+                  buttonload = "registration";
+                });
+                profileModel.imageUrl = await Provider.of<ApiServiceFirebase>(
+                  context,
+                  listen: false,
+                ).uploadPhoto(listImages[0]!.file);
+                profileModel.id =
+                    Provider.of<ApiServiceFirebase>(
+                      context,
+                      listen: false,
+                    ).user!.uid;
+                profileModel.createdTime = DateTime.now();
+                await Provider.of<ApiServiceFirebase>(
+                  context,
+                  listen: false,
+                ).addProfile(profileModel);
+                await Provider.of<ApiServiceFirebase>(
+                  context,
+                  listen: false,
+                ).getProfile();
+                setState(() {
+                  buttonload = "";
+                });
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const MainScreen()),
+                );
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: 80.w,
+                height: 6.h,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  'Create Account',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
