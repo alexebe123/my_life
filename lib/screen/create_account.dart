@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/model/profile_model.dart';
+import 'package:my_life/screen/login_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -22,6 +23,7 @@ class _CreateAccountState extends State<CreateAccount> {
   String imageUrlError = "";
   List<FileUploadModel?> listImages = [];
   String buttonload = "";
+  bool isAgreed = false;
 
   ProfileModel profileModel = ProfileModel.empty();
   _defaultValues() {
@@ -34,15 +36,16 @@ class _CreateAccountState extends State<CreateAccount> {
     if (profileModel.fullname == "") {
       result = false;
       setState(() {
-        fullNameError = "أدخل الإسم";
+        fullNameError = "Enter Name";
       });
     }
     if (listImages.isEmpty) {
       result = false;
       setState(() {
-        imageUrlError = "يجب ادخال صورة شخصية";
+        imageUrlError = "Enter Image";
       });
     }
+    if (!isAgreed) return false;
     return result;
   }
 
@@ -97,7 +100,9 @@ class _CreateAccountState extends State<CreateAccount> {
                 SizedBox(width: 5.w),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(
+                      context,
+                    ).pushReplacementNamed(LoginScreen.screenRoute);
                   },
                   child: Container(
                     width: 12.w,
@@ -132,20 +137,33 @@ class _CreateAccountState extends State<CreateAccount> {
             ),
             SizedBox(height: 3.h),
             listImages.isNotEmpty
-                ? ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  child: Container(
-                    width: 50.w,
-                    height: 20.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                    child: CircleAvatar(
-                      maxRadius: 15.h,
-                      child: Image.file(
-                        listImages[0]!.file,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                ? GestureDetector(
+                  onTap: () async {
+                    // Handle photo upload
+                    final result = await pickImage(ImageSource.gallery);
+                    if (result == null) {
+                      return;
+                    }
+                    listImages.clear();
+                    setState(() {
+                      listImages.add(result);
+                    });
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    child: Container(
+                      width: 50.w,
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: CircleAvatar(
+                        maxRadius: 15.h,
+                        child: Image.file(
+                          listImages[0]!.file,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -166,20 +184,33 @@ class _CreateAccountState extends State<CreateAccount> {
                         });
                       },
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
                         child: Container(
                           width: 50.w,
                           height: 20.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              50,
+                            ), // نصف القطر
                           ),
                           child: Container(
-                            color: const Color.fromARGB(255, 233, 247, 233),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                50,
+                              ), // نصف القطر
+                              border:
+                                  imageUrlError != ""
+                                      ? Border.all(color: Colors.red, width: 3)
+                                      : null,
+                              color: const Color.fromARGB(255, 233, 247, 233),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Text('Add Photo'),
+                    imageUrlError != ""
+                        ? Text(imageUrlError)
+                        : Text('Add Photo'),
                   ],
                 ),
             SizedBox(height: 2.h),
@@ -202,6 +233,11 @@ class _CreateAccountState extends State<CreateAccount> {
                   }
                 },
                 decoration: InputDecoration(
+                  errorText: (fullNameError == "") ? null : fullNameError,
+                  focusedErrorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green, width: 2.5),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                   border: OutlineInputBorder(),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -209,6 +245,10 @@ class _CreateAccountState extends State<CreateAccount> {
                       color: Colors.grey,
                       width: 1,
                     ), // عندما يكون غير مفعّل
+                  ),
+                  errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -236,9 +276,12 @@ class _CreateAccountState extends State<CreateAccount> {
                         Text(
                           'Terms and Condition',
                           style: TextStyle(
-                            color: Colors.green,
+                            color: isAgreed ? Colors.green : Colors.red,
                             decoration: TextDecoration.underline,
-                            decorationColor: Colors.green, // لون الخط
+                            decorationColor:
+                                isAgreed
+                                    ? Colors.green
+                                    : Colors.red, // لون الخط
                             decorationThickness: 2,
                           ),
                         ),
@@ -250,15 +293,23 @@ class _CreateAccountState extends State<CreateAccount> {
                     Text(
                       'Privacy Policy',
                       style: TextStyle(
-                        color: Colors.green,
+                        color: isAgreed ? Colors.green : Colors.red,
                         decoration: TextDecoration.underline,
-                        decorationColor: Colors.green, // لون الخط
+                        decorationColor:
+                            isAgreed ? Colors.green : Colors.red, // لون الخط
                         decorationThickness: 2,
                       ),
                     ),
                   ],
                 ),
-                Checkbox(value: false, onChanged: (value) {}),
+                Checkbox(
+                  value: isAgreed,
+                  onChanged: (value) {
+                    setState(() {
+                      isAgreed = value!;
+                    });
+                  },
+                ),
                 SizedBox(width: 6.w),
               ],
             ),
@@ -305,12 +356,13 @@ class _CreateAccountState extends State<CreateAccount> {
                   MaterialPageRoute(builder: (context) => const MainScreen()),
                 );
               },
-              child: Container(
+              child: AnimatedContainer(
                 alignment: Alignment.center,
+                duration: const Duration(milliseconds: 900),
                 width: 80.w,
                 height: 6.h,
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: isAgreed ? Colors.black : Colors.grey,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Text(

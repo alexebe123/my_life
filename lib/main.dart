@@ -50,8 +50,7 @@ class MyApp extends StatelessWidget {
               SplashScreen.screenRoute: (context) => const SplashScreen(),
               LoginScreen.screenRoute: (context) => const LoginScreen(),
               MainScreen.screenRoute: (context) => const MainScreen(),
-              CreateAccount.screenRoute:
-                  (context) => const CreateAccount(),
+              CreateAccount.screenRoute: (context) => const CreateAccount(),
             },
           );
         },
