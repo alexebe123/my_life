@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ntp/ntp.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class MainState extends ChangeNotifier {
-  late ApiServiceFirebase _apiServiceFirebase;
   bool isInternetFuond = true;
   DateTime dateTimeNow = DateTime.now();
   Future<DateTime> getTimeNtp() async {
@@ -60,5 +58,23 @@ class MainState extends ChangeNotifier {
       log(e.toString());
       isInternetFuond = false;
     }*/
+  }
+
+  String getMonthName(int month) {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return months[month - 1];
   }
 }
