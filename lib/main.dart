@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sizer/sizer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:my_life/screen/base_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
               LoginScreen.screenRoute: (context) => const LoginScreen(),
               MainScreen.screenRoute: (context) => const MainScreen(),
               CreateAccount.screenRoute: (context) => const CreateAccount(),
+              BaseScreen.screenRoute: (context) => const BaseScreen(),
             },
           );
         },
