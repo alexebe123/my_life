@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
             Row(
               children: [
                 SizedBox(width: 8.w),
-                CircleAvatar(
+                /*CircleAvatar(
                   radius: 30,
                   backgroundImage: NetworkImage(
                     Provider.of<ApiServiceFirebase>(
@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
                     ).profileModel!.imageUrl,
                   ),
                 ),
-                SizedBox(width: 60.w),
+                SizedBox(width: 60.w),*/
                 Icon(FontAwesomeIcons.bell, size: 24.sp, color: Colors.black),
               ],
             ),
@@ -42,9 +42,14 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  Provider.of<ApiServiceFirebase>(
-                    context,
-                  ).profileModel!.fullname,
+                  (Provider.of<ApiServiceFirebase>(
+                            context,
+                          ).profileModel!.fullname ==
+                          "")
+                      ? ""
+                      : Provider.of<ApiServiceFirebase>(
+                        context,
+                      ).profileModel!.fullname,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

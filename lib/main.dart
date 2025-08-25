@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            initialRoute: SplashScreen.screenRoute,
+            initialRoute: BaseScreen.screenRoute,
             routes: {
               SplashScreen.screenRoute: (context) => const SplashScreen(),
               LoginScreen.screenRoute: (context) => const LoginScreen(),
