@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -21,7 +23,7 @@ class _BaseScreenState extends State<BaseScreen> {
   // الصفحات
   final List<Widget> _pages = [
     MainScreen(),
-    const Center(child: Text('🔍 البحث', style: TextStyle(fontSize: 24))),
+    HabitScreen(),
     const Center(child: Text('⚙️ الإعدادات', style: TextStyle(fontSize: 24))),
   ];
   @override
@@ -49,11 +51,14 @@ class _BaseScreenState extends State<BaseScreen> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'الرئيسية'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'البحث'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.hexagonNodesBolt),
+            label: 'Habit',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'الإعدادات',
+            label: 'Settings',
           ),
         ],
       ),

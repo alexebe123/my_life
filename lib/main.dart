@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/providers.dart';
-import 'package:my_life/screen/create_account.dart';
-import 'package:my_life/screen/habit_screen.dart';
-import 'package:my_life/screen/login_screen.dart';
+import 'package:my_life/screen/login%20system/create_account.dart';
+import 'package:my_life/screen/habit%20screens/habit_screen.dart';
+import 'package:my_life/screen/login%20system/login_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
-import 'package:my_life/screen/splash_screen.dart';
+import 'package:my_life/screen/login%20system/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

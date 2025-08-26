@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/Notifiers/main_state.dart';
 import 'package:my_life/screen/base_screen.dart';
-import 'package:my_life/screen/create_account.dart';
-import 'package:my_life/screen/login_screen.dart';
+import 'package:my_life/screen/login%20system/create_account.dart';
+import 'package:my_life/screen/login%20system/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
