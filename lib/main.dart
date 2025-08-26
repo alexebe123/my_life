@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/providers.dart';
 import 'package:my_life/screen/create_account.dart';
+import 'package:my_life/screen/habit_screen.dart';
 import 'package:my_life/screen/login_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
 import 'package:my_life/screen/splash_screen.dart';
@@ -46,13 +47,14 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            initialRoute: BaseScreen.screenRoute,
+            initialRoute: SplashScreen.screenRoute,
             routes: {
               SplashScreen.screenRoute: (context) => const SplashScreen(),
               LoginScreen.screenRoute: (context) => const LoginScreen(),
               MainScreen.screenRoute: (context) => const MainScreen(),
               CreateAccount.screenRoute: (context) => const CreateAccount(),
               BaseScreen.screenRoute: (context) => const BaseScreen(),
+              HabitScreen.screenRoute: (context) => const HabitScreen(),
             },
           );
         },

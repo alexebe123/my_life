@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_life/model/profile_model.dart';
 import 'package:my_life/res/app_constant.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiServiceFirebase extends ChangeNotifier {
   static ApiServiceFirebase? _instance;
@@ -54,6 +55,10 @@ class ApiServiceFirebase extends ChangeNotifier {
     GoogleSignInAccount? account;
     try {
       account = await _googleSignIn.authenticate(scopeHint: scopes);
+      profileModel?.id = account.id;
+      profileModel?.email = account.email;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('email', account.email);
       return account;
     } on GoogleSignInException catch (e) {
       print('Google Sign In error:\n$e');
@@ -64,7 +69,24 @@ class ApiServiceFirebase extends ChangeNotifier {
     }
   }
 
-  fb.User? getAccount() {
+  Future<ProfileModel?> getAccountInfo() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final email = prefs.getString('email') ?? '';
+      if (email.isNotEmpty) {
+        profileModel?.email = email;
+        isLoggedIn = true;
+        return profileModel;
+      }
+      isLoggedIn = false;
+      return null;
+    } catch (e) {
+      print('Error retrieving account info: $e');
+      return null;
+    }
+  }
+
+  Future<fb.User?> getAccount() async {
     user = auth.currentUser;
     if (user == null) {
       isLoggedIn = false;
@@ -102,20 +124,20 @@ class ApiServiceFirebase extends ChangeNotifier {
     try {
       await firebaseFirestore
           .collection(AppConstants.collectionIdUsers)
-          .doc(profile.id)
-          .set(profile.toJson());
+          .add(profile.toJson());
     } catch (e) {
       print(e.toString());
     }
   }
 
   Future<ProfileModel?> getProfile() async {
-    profileModel = null;
+    final prefs = await SharedPreferences.getInstance();
+    final email = prefs.getString('email') ?? '';
     try {
       final data =
           await firebaseFirestore
               .collection(AppConstants.collectionIdUsers)
-              .where("email", isEqualTo: user!.email)
+              .where("email", isEqualTo: email)
               .limit(1)
               .get();
       if (data.docs.isNotEmpty) {

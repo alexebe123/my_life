@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (Provider.of<MainState>(context, listen: false).isInternetFuond) {
       try {
         try {
-          Provider.of<ApiServiceFirebase>(context, listen: false).getAccount();
+          Provider.of<ApiServiceFirebase>(context, listen: false).getAccountInfo();
         } catch (e) {}
         final result =
             await Provider.of<ApiServiceFirebase>(

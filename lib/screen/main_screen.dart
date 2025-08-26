@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/Notifiers/main_state.dart';
+import 'package:my_life/screen/habit_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
             Row(
               children: [
                 SizedBox(width: 8.w),
-                /*CircleAvatar(
+                CircleAvatar(
                   radius: 30,
                   backgroundImage: NetworkImage(
                     Provider.of<ApiServiceFirebase>(
@@ -33,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
                     ).profileModel!.imageUrl,
                   ),
                 ),
-                SizedBox(width: 60.w),*/
+                SizedBox(width: 60.w),
                 Icon(FontAwesomeIcons.bell, size: 24.sp, color: Colors.black),
               ],
             ),
@@ -234,27 +235,34 @@ class _MainScreenState extends State<MainScreen> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 30.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(1),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(
+                          context,
+                        ).pushNamed(HabitScreen.screenRoute);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 30.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.black,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(1),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          "Start",
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
-                        ],
-                      ),
-                      child: Text(
-                        "Start",
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
