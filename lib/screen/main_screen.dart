@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/Notifiers/main_state.dart';
+import 'package:my_life/screen/habit%20screens/create_habit_screen.dart';
 import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -239,7 +240,7 @@ class _MainScreenState extends State<MainScreen> {
                       onTap: () {
                         Navigator.of(
                           context,
-                        ).pushNamed(HabitScreen.screenRoute);
+                        ).pushNamed(CreateHabitScreen.screenRoute);
                       },
                       child: Container(
                         alignment: Alignment.center,

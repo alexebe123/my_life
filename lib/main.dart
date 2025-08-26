@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/providers.dart';
+import 'package:my_life/screen/habit%20screens/create_habit_screen.dart';
 import 'package:my_life/screen/login%20system/create_account.dart';
 import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:my_life/screen/login%20system/login_screen.dart';
@@ -43,11 +44,11 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [Locale('ar', '')],
+            supportedLocales: const [Locale('en', '')],
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            initialRoute: SplashScreen.screenRoute,
+            initialRoute: CreateHabitScreen.screenRoute,
             routes: {
               SplashScreen.screenRoute: (context) => const SplashScreen(),
               LoginScreen.screenRoute: (context) => const LoginScreen(),
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
               CreateAccount.screenRoute: (context) => const CreateAccount(),
               BaseScreen.screenRoute: (context) => const BaseScreen(),
               HabitScreen.screenRoute: (context) => const HabitScreen(),
+              CreateHabitScreen.screenRoute: (context) => const CreateHabitScreen(),
             },
           );
         },
