@@ -160,6 +160,8 @@ class ApiServiceFirebase extends ChangeNotifier {
   Future addHabit(Habit habit) async {
     try {
       await firebaseFirestore
+          .collection(AppConstants.collectionIdUsers)
+          .doc(profileModel?.id)
           .collection(AppConstants.collectionIdHabits)
           .add(habit.toJson());
     } catch (e) {

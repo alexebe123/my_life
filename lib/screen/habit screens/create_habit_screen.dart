@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_life/Notifiers/api_service_firebase.dart';
+import 'package:my_life/model/habit_model.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateHabitScreen extends StatefulWidget {
@@ -9,6 +12,50 @@ class CreateHabitScreen extends StatefulWidget {
 }
 
 class _CreateHabitScreenState extends State<CreateHabitScreen> {
+  Habit habit = Habit.empty();
+  String nameError = "";
+  String descriptionError = "";
+  String colorError = "";
+  String reasonError = "";
+
+  _defaultValues() {
+    nameError = "";
+    descriptionError = "";
+    colorError = "";
+    reasonError = "";
+  }
+
+  bool _validateInfo(void Function(void Function()) setState) {
+    bool result = true;
+    _defaultValues();
+    if (habit.title == "") {
+      result = false;
+      setState(() {
+        nameError = "Enter Name";
+      });
+    }
+    if (habit.description == "") {
+      result = false;
+      setState(() {
+        descriptionError = "Enter Description";
+      });
+    }
+    if (habit.color == "") {
+      result = false;
+      setState(() {
+        colorError = "Enter Color";
+      });
+    }
+    if (habit.reason == "") {
+      result = false;
+      setState(() {
+        reasonError = "Enter Reason";
+      });
+    }
+
+    return result;
+  }
+
   final List<Color> colors = [
     Colors.red,
     Colors.green,
@@ -19,6 +66,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
     Colors.pink,
     Colors.teal,
   ];
+  String loading = '';
   int? selectedIndex;
   @override
   Widget build(BuildContext context) {
@@ -46,7 +94,21 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
               ),
               SizedBox(height: 2.h),
               TextField(
+                onChanged: (value) {
+                  if (nameError != "") {
+                    setState(() {
+                      nameError = "";
+                    });
+                  } else {
+                    habit.title = value;
+                  }
+                },
                 decoration: InputDecoration(
+                  errorText: (nameError == "") ? null : nameError,
+                  errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                   labelText: 'Habit Name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
@@ -65,8 +127,10 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
+                          colorError = "";
                           selectedIndex = index;
                         });
+                        habit.color = index.toString();
                       },
                       child: Stack(
                         alignment: Alignment.center,
@@ -88,6 +152,12 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                   },
                 ),
               ),
+              (selectedIndex != null)
+                  ? const SizedBox.shrink()
+                  : Text(
+                    colorError,
+                    style: TextStyle(color: Colors.red, fontSize: 10.sp),
+                  ),
               SizedBox(height: 2.h),
               Text(
                 'Description',
@@ -95,10 +165,24 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
               ),
               SizedBox(height: 2.h),
               TextField(
+                onChanged: (value) {
+                  if (descriptionError != "") {
+                    setState(() {
+                      descriptionError = "";
+                    });
+                  } else {
+                    habit.description = value;
+                  }
+                },
                 decoration: InputDecoration(
-                  labelText: 'Reason',
+                  labelText: 'Description',
+                  errorText: (descriptionError == "") ? null : descriptionError,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
                 maxLines: 3,
@@ -110,8 +194,22 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
               ),
               SizedBox(height: 2.h),
               TextField(
+                onChanged: (value) {
+                  if (reasonError != "") {
+                    setState(() {
+                      reasonError = "";
+                    });
+                  } else {
+                    habit.reason = value;
+                  }
+                },
                 decoration: InputDecoration(
+                  errorText: (reasonError == "") ? null : reasonError,
                   labelText: 'Reason',
+                  errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -119,21 +217,42 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                 maxLines: 3,
               ),
               SizedBox(height: 2.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                width: 90.w,
-                height: 7.h,
-                alignment: Alignment.center,
-                child: Text(
-                  'Save',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () async {
+                  if (!_validateInfo(setState)) {
+                    return;
+                  }
+                  setState(() {
+                    loading = 'loading';
+                  });
+                  await Provider.of<ApiServiceFirebase>(
+                    context,
+                    listen: false,
+                  ).addHabit(habit);
+                  setState(() {
+                    loading = '';
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(30),
                   ),
+                  width: 90.w,
+                  height: 7.h,
+                  alignment: Alignment.center,
+                  child:
+                      (loading == "")
+                          ? Text(
+                            'Save',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                          : CircularProgressIndicator(),
                 ),
               ),
             ],

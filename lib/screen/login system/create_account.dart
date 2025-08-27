@@ -5,7 +5,6 @@ import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/model/profile_model.dart';
 import 'package:my_life/screen/base_screen.dart';
 import 'package:my_life/screen/login%20system/login_screen.dart';
-import 'package:my_life/screen/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -223,7 +222,6 @@ class _CreateAccountState extends State<CreateAccount> {
             SizedBox(
               width: 80.w,
               child: TextField(
-                textDirection: TextDirection.ltr,
                 onChanged: (value) {
                   if (fullNameError != "") {
                     setState(() {
@@ -367,14 +365,17 @@ class _CreateAccountState extends State<CreateAccount> {
                   color: isAgreed ? Colors.black : Colors.grey,
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Text(
-                  'Create Account',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
-                ),
+                child:
+                    (buttonload == "")
+                        ? Text(
+                          'Create Account',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        )
+                        : CircularProgressIndicator(color: Colors.white),
               ),
             ),
           ],
