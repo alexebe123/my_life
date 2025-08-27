@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            initialRoute: CreateHabitScreen.screenRoute,
+            initialRoute: SplashScreen.screenRoute,
             routes: {
               SplashScreen.screenRoute: (context) => const SplashScreen(),
               LoginScreen.screenRoute: (context) => const LoginScreen(),
@@ -56,7 +56,8 @@ class MyApp extends StatelessWidget {
               CreateAccount.screenRoute: (context) => const CreateAccount(),
               BaseScreen.screenRoute: (context) => const BaseScreen(),
               HabitScreen.screenRoute: (context) => const HabitScreen(),
-              CreateHabitScreen.screenRoute: (context) => const CreateHabitScreen(),
+              CreateHabitScreen.screenRoute:
+                  (context) => const CreateHabitScreen(),
             },
           );
         },

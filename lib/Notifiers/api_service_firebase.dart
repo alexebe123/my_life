@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_life/model/habit_model.dart';
 import 'package:my_life/model/profile_model.dart';
 import 'package:my_life/res/app_constant.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -153,6 +154,16 @@ class ApiServiceFirebase extends ChangeNotifier {
     } catch (e) {
       //  print(e.toString());
       return profileModel;
+    }
+  }
+
+  Future addHabit(Habit habit) async {
+    try {
+      await firebaseFirestore
+          .collection(AppConstants.collectionIdHabits)
+          .add(habit.toJson());
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

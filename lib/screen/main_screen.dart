@@ -132,11 +132,6 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     Row(
                       children: [
-                        SvgPicture.asset(
-                          'lib/assets/images/6.svg',
-                          width: 200,
-                          height: 200,
-                        ),
                         Column(
                           children: [
                             Text(
@@ -163,6 +158,11 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                           ],
+                        ),
+                        SvgPicture.asset(
+                          'lib/assets/images/6.svg',
+                          width: 200,
+                          height: 200,
                         ),
                       ],
                     ),
