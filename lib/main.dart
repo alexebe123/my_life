@@ -7,6 +7,8 @@ import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:my_life/screen/login%20system/login_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
 import 'package:my_life/screen/login%20system/splash_screen.dart';
+import 'package:my_life/screen/profile_screen.dart';
+import 'package:my_life/screen/setting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -58,6 +60,8 @@ class MyApp extends StatelessWidget {
               HabitScreen.screenRoute: (context) => const HabitScreen(),
               CreateHabitScreen.screenRoute:
                   (context) => const CreateHabitScreen(),
+              ProfileScreen.screenRoute: (context) => const ProfileScreen(),
+              SettingScreen.screenRoute: (context) => const SettingScreen(),
             },
           );
         },

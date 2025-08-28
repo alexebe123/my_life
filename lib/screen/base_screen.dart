@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
+import 'package:my_life/screen/setting_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({super.key});
@@ -24,7 +25,7 @@ class _BaseScreenState extends State<BaseScreen> {
   final List<Widget> _pages = [
     MainScreen(),
     HabitScreen(),
-    const Center(child: Text('⚙️ الإعدادات', style: TextStyle(fontSize: 24))),
+    SettingScreen(),
   ];
   @override
   Widget build(BuildContext context) {

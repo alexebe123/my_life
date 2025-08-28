@@ -28,21 +28,6 @@ class _HabitScreenState extends State<HabitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child:
-            habits.isEmpty
-                ? Text('No Habits Found')
-                : ListView.builder(
-                  itemCount: habits.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(habits[index].title),
-                      subtitle: Text(habits[index].description),
-                    );
-                  },
-                ),
-      ),
-    );
+    return Scaffold();
   }
 }
