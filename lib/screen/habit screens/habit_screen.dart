@@ -98,7 +98,13 @@ class _HabitScreenState extends State<HabitScreen> {
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Provider.of<HabitState>(
+                        context,
+                      ).getColorFromNumber(
+                        int.parse(
+                          Provider.of<HabitState>(context).habits[index].color,
+                        ),
+                      ),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -161,7 +167,7 @@ class _HabitScreenState extends State<HabitScreen> {
                             if (value == 0) {
                               Navigator.of(context).pushNamed(
                                 CreateHabitScreen.screenRoute,
-                                arguments: "",
+                                arguments: "Edit",
                               );
                             } else if (value == 1) {
                               await Provider.of<HabitState>(

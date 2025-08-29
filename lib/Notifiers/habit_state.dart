@@ -5,6 +5,16 @@ import 'package:provider/provider.dart';
 
 class HabitState extends ChangeNotifier {
   List<Habit> habits = [];
+  final List<Color> colors = [
+    Colors.red[100]!,
+    Colors.green[100]!,
+    Colors.blue[100]!,
+    Colors.orange[100]!,
+    Colors.purple[100]!,
+    Colors.yellow[100]!,
+    Colors.pink[100]!,
+    Colors.teal[100]!,
+  ];
 
   Future<void> getHabits(BuildContext context) async {
     habits =
@@ -13,6 +23,10 @@ class HabitState extends ChangeNotifier {
           listen: false,
         ).getHabits();
     notifyListeners();
+  }
+
+  Color getColorFromNumber(int index) {
+    return colors[index];
   }
 
   Future<void> deleteHabit(BuildContext context, String habitId) async {
