@@ -86,8 +86,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             SizedBox(height: 5.h),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 8.w),
+                SizedBox(width: 5.w),
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
