@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/Notifiers/habit_state.dart';
+import 'package:my_life/screen/habit%20screens/create_habit_screen.dart';
 import 'package:provider/provider.dart';
 
 class HabitScreen extends StatefulWidget {
@@ -156,16 +157,28 @@ class _HabitScreenState extends State<HabitScreen> {
                         ),
                         PopupMenuButton<int>(
                           icon: const Icon(Icons.more_vert),
-                          onSelected: (value) {
+                          onSelected: (value) async {
                             if (value == 0) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('تم اختيار تعديل'),
-                                ),
+                              Navigator.of(context).pushNamed(
+                                CreateHabitScreen.screenRoute,
+                                arguments: "",
                               );
                             } else if (value == 1) {
+                              await Provider.of<HabitState>(
+                                context,
+                                listen: false,
+                              ).deleteHabit(
+                                context,
+                                Provider.of<HabitState>(
+                                  context,
+                                  listen: false,
+                                ).habits[index].id,
+                              );
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('تم اختيار حذف')),
+                                const SnackBar(
+                                  content: Text('تم اختيار حذف'),
+                                  backgroundColor: Colors.red,
+                                ),
                               );
                             } else if (value == 2) {
                               ScaffoldMessenger.of(context).showSnackBar(

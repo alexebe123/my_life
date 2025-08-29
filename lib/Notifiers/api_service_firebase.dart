@@ -168,29 +168,45 @@ class ApiServiceFirebase extends ChangeNotifier {
       print(e.toString());
     }
   }
+
   Future<List<Habit>> getHabits() async {
     List<Habit> habits = [];
     try {
-      final data = await firebaseFirestore
-          .collection(AppConstants.collectionIdUsers)
-          .doc(profileModel?.id)
-          .collection(AppConstants.collectionIdHabits)
-          .get();
+      final data =
+          await firebaseFirestore
+              .collection(AppConstants.collectionIdUsers)
+              .doc(profileModel?.id)
+              .collection(AppConstants.collectionIdHabits)
+              .get();
       if (data.docs.isNotEmpty) {
-        habits = data.docs
-            .map<Habit>((doc) {
-              var map = doc.data();
-              map["\$id"] = doc.id;
-              return Habit.fromJson(map);
-            })
-            .toList()
-            .reversed
-            .toList();
+        habits =
+            data.docs
+                .map<Habit>((doc) {
+                  var map = doc.data();
+                  map["\$id"] = doc.id;
+                  return Habit.fromJson(map);
+                })
+                .toList()
+                .reversed
+                .toList();
       }
       return habits;
     } catch (e) {
       print(e.toString());
       return habits;
+    }
+  }
+
+  Future<void> deleteHabit(String habitId) async {
+    try {
+      await firebaseFirestore
+          .collection(AppConstants.collectionIdUsers)
+          .doc(profileModel?.id)
+          .collection(AppConstants.collectionIdHabits)
+          .doc(habitId)
+          .delete();
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

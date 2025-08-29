@@ -14,4 +14,13 @@ class HabitState extends ChangeNotifier {
         ).getHabits();
     notifyListeners();
   }
+
+  Future<void> deleteHabit(BuildContext context, String habitId) async {
+    await Provider.of<ApiServiceFirebase>(
+      context,
+      listen: false,
+    ).deleteHabit(habitId);
+    habits.removeWhere((habit) => habit.id == habitId);
+    notifyListeners();
+  }
 }
