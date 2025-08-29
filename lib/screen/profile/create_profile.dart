@@ -11,14 +11,14 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter/services.dart';
 import 'package:my_life/model/uplode_model.dart';
 
-class CreateAccount extends StatefulWidget {
-  const CreateAccount({super.key});
+class CreateProfile extends StatefulWidget {
+  const CreateProfile({super.key});
   static const screenRoute = 'create_account';
   @override
-  State<CreateAccount> createState() => _CreateAccountState();
+  State<CreateProfile> createState() => _CreateProfileState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
+class _CreateProfileState extends State<CreateProfile> {
   String fullNameError = "";
   String imageUrlError = "";
   List<FileUploadModel?> listImages = [];

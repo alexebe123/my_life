@@ -2,12 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_life/Notifiers/providers.dart';
 import 'package:my_life/screen/habit%20screens/create_habit_screen.dart';
-import 'package:my_life/screen/login%20system/create_account.dart';
+import 'package:my_life/screen/profile/create_profile.dart';
 import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:my_life/screen/login%20system/login_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
 import 'package:my_life/screen/login%20system/splash_screen.dart';
-import 'package:my_life/screen/profile_screen.dart';
+import 'package:my_life/screen/profile/profile_screen.dart';
 import 'package:my_life/screen/setting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
               SplashScreen.screenRoute: (context) => const SplashScreen(),
               LoginScreen.screenRoute: (context) => const LoginScreen(),
               MainScreen.screenRoute: (context) => const MainScreen(),
-              CreateAccount.screenRoute: (context) => const CreateAccount(),
+              CreateProfile.screenRoute: (context) => const CreateProfile(),
               BaseScreen.screenRoute: (context) => const BaseScreen(),
               HabitScreen.screenRoute: (context) => HabitScreen(),
               CreateHabitScreen.screenRoute:

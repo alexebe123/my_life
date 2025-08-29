@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
-import 'package:my_life/screen/login%20system/create_account.dart';
+import 'package:my_life/screen/profile/create_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Successfully signed in with Google
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => CreateAccount()),
+                    MaterialPageRoute(builder: (context) => CreateProfile()),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
