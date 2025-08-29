@@ -4,6 +4,8 @@ class Habit {
   String description = "";
   String color = "";
   String reason = "";
+  DateTime dateCreated = DateTime.now();
+  bool state = false;
 
   Habit.empty();
 
@@ -23,6 +25,14 @@ class Habit {
     try {
       reason = json['reason'];
     } catch (e) {}
+    try {
+      dateCreated = DateTime.fromMillisecondsSinceEpoch(
+        json['createdAt'] as int,
+      );
+    } catch (e) {}
+    try {
+      state = json['state'];
+    } catch (e) {}
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -30,6 +40,8 @@ class Habit {
     data['description'] = description;
     data['color'] = color;
     data['reason'] = reason;
+    data['dateCreated'] = dateCreated.millisecondsSinceEpoch;
+    data['state'] = state;
     return data;
   }
 }

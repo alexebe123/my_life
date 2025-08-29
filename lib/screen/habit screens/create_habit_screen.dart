@@ -225,6 +225,8 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                   setState(() {
                     loading = 'loading';
                   });
+                  habit.dateCreated = DateTime.now();
+                  habit.state = true;
                   await Provider.of<ApiServiceFirebase>(
                     context,
                     listen: false,

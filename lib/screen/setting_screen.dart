@@ -16,11 +16,17 @@ class _SettingScreenState extends State<SettingScreen> {
       body: Column(
         children: [
           SizedBox(height: 5.h),
-          SettingContainer(icon: Icons.person, title: 'Profile'),
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, 'profile_screen'),
+            child: SettingContainer(icon: Icons.person, title: 'Profile'),
+          ),
           SizedBox(height: 2.h),
-          SettingContainer(
-            icon: FontAwesomeIcons.hexagonNodesBolt,
-            title: 'Habits',
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, 'habit_screen'),
+            child: SettingContainer(
+              icon: FontAwesomeIcons.hexagonNodesBolt,
+              title: 'Habits',
+            ),
           ),
         ],
       ),

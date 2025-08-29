@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:my_life/screen/main_screen.dart';
 import 'package:my_life/screen/setting_screen.dart';
 
@@ -22,11 +21,7 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   // الصفحات
-  final List<Widget> _pages = [
-    MainScreen(),
-    HabitScreen(),
-    SettingScreen(),
-  ];
+  final List<Widget> _pages = [MainScreen(), Container(), SettingScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

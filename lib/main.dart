@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
               MainScreen.screenRoute: (context) => const MainScreen(),
               CreateAccount.screenRoute: (context) => const CreateAccount(),
               BaseScreen.screenRoute: (context) => const BaseScreen(),
-              HabitScreen.screenRoute: (context) => const HabitScreen(),
+              HabitScreen.screenRoute: (context) => HabitScreen(),
               CreateHabitScreen.screenRoute:
                   (context) => const CreateHabitScreen(),
               ProfileScreen.screenRoute: (context) => const ProfileScreen(),

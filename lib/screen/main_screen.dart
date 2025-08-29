@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_life/Notifiers/api_service_firebase.dart';
 import 'package:my_life/Notifiers/main_state.dart';
 import 'package:my_life/screen/habit%20screens/create_habit_screen.dart';
-import 'package:my_life/screen/habit%20screens/habit_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
