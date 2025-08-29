@@ -167,7 +167,7 @@ class _HabitScreenState extends State<HabitScreen> {
                             if (value == 0) {
                               Navigator.of(context).pushNamed(
                                 CreateHabitScreen.screenRoute,
-                                arguments: "Edit",
+                                arguments: Provider.of<HabitState>(context, listen: false).habits[index],
                               );
                             } else if (value == 1) {
                               await Provider.of<HabitState>(
@@ -192,6 +192,7 @@ class _HabitScreenState extends State<HabitScreen> {
                               );
                             }
                           },
+                          color: Colors.white,
                           itemBuilder:
                               (context) => [
                                 PopupMenuItem(

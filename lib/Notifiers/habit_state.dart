@@ -37,4 +37,22 @@ class HabitState extends ChangeNotifier {
     habits.removeWhere((habit) => habit.id == habitId);
     notifyListeners();
   }
+
+  Future<void> updateHabit(BuildContext context, Habit habit) async {
+    await Provider.of<ApiServiceFirebase>(
+      context,
+      listen: false,
+    ).updateHabit(habit);
+    habits[habits.indexWhere((h) => h.id == habit.id)] = habit;
+    notifyListeners();
+  }
+
+  Future<void> addHabit(BuildContext context, Habit habit) async {
+    await Provider.of<ApiServiceFirebase>(
+      context,
+      listen: false,
+    ).addHabit(habit);
+    habits.add(habit);
+    notifyListeners();
+  }
 }

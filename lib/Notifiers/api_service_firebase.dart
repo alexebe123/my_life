@@ -209,4 +209,17 @@ class ApiServiceFirebase extends ChangeNotifier {
       print(e.toString());
     }
   }
+
+  Future<void> updateHabit(Habit habit) async {
+    try {
+      await firebaseFirestore
+          .collection(AppConstants.collectionIdUsers)
+          .doc(profileModel?.id)
+          .collection(AppConstants.collectionIdHabits)
+          .doc(habit.id)
+          .update(habit.toJson());
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_life/Notifiers/api_service_firebase.dart';
+import 'package:my_life/Notifiers/habit_state.dart';
 import 'package:my_life/model/habit_model.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -12,6 +12,10 @@ class CreateHabitScreen extends StatefulWidget {
 }
 
 class _CreateHabitScreenState extends State<CreateHabitScreen> {
+  late TextEditingController _titleController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _reasonController;
+
   Habit habit = Habit.empty();
   String nameError = "";
   String descriptionError = "";
@@ -23,6 +27,14 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
     descriptionError = "";
     colorError = "";
     reasonError = "";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController();
+    _descriptionController = TextEditingController();
+    _reasonController = TextEditingController();
   }
 
   bool _validateInfo(void Function(void Function()) setState) {
@@ -66,10 +78,41 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
     Colors.pink,
     Colors.teal,
   ];
+
+  Color getColorFromColors(int index) {
+    if (index == 0) {
+      return Colors.red;
+    } else if (index == 1) {
+      return Colors.green;
+    } else if (index == 2) {
+      return Colors.blue;
+    } else if (index == 3) {
+      return Colors.orange;
+    } else if (index == 4) {
+      return Colors.purple;
+    } else if (index == 5) {
+      return Colors.yellow;
+    } else if (index == 6) {
+      return Colors.pink;
+    } else if (index == 7) {
+      return Colors.teal;
+    }
+    return Colors.grey;
+  }
+
   String loading = '';
   int? selectedIndex;
   @override
   Widget build(BuildContext context) {
+    final Habit? habitEddit =
+        ModalRoute.of(context)!.settings.arguments as Habit?;
+    if (habitEddit != null && habitEddit.id != "") {
+      habit = habitEddit;
+      _titleController.text = habitEddit.title;
+      _descriptionController.text = habitEddit.description;
+      _reasonController.text = habitEddit.reason;
+      selectedIndex = int.tryParse(habitEddit.color);
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -103,6 +146,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     habit.title = value;
                   }
                 },
+                controller: _titleController,
                 decoration: InputDecoration(
                   errorText: (nameError == "") ? null : nameError,
                   errorBorder: const OutlineInputBorder(
@@ -174,6 +218,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     habit.description = value;
                   }
                 },
+                controller: _descriptionController,
                 decoration: InputDecoration(
                   labelText: 'Description',
                   errorText: (descriptionError == "") ? null : descriptionError,
@@ -203,6 +248,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     habit.reason = value;
                   }
                 },
+                controller: _reasonController,
                 decoration: InputDecoration(
                   errorText: (reasonError == "") ? null : reasonError,
                   labelText: 'Reason',
@@ -227,10 +273,17 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                   });
                   habit.dateCreated = DateTime.now();
                   habit.state = true;
-                  await Provider.of<ApiServiceFirebase>(
-                    context,
-                    listen: false,
-                  ).addHabit(habit);
+                  if (habitEddit != null) {
+                    await Provider.of<HabitState>(
+                      context,
+                      listen: false,
+                    ).updateHabit(context, habit);
+                  } else {
+                    await Provider.of<HabitState>(
+                      context,
+                      listen: false,
+                    ).addHabit(context, habit);
+                  }
                   setState(() {
                     loading = '';
                   });
